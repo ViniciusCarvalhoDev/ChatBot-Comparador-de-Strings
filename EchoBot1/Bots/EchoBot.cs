@@ -3,6 +3,7 @@
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.15.2
 
+using EchoBot1.StringMatching;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using System.Collections.Generic;
@@ -22,7 +23,15 @@ namespace EchoBot1.Bots
         }
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var replyText = $"Echo: {turnContext.Activity.Text}";
+            //var conversationStateAccessors = _conversationState.CreateProperty<ConversationFlow>(nameof(ConversationFlow));
+            //var flow = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationFlow(), cancellationToken);
+
+            string mensagem = turnContext.Activity.Text.ToLower();
+            string palavraParaComparacao = "macaco";
+
+            double resultado = ComputeLevenshteinDistance.CalculateSimilarity(mensagem, palavraParaComparacao);
+
+            var replyText = $"A palavra digitada é {resultado * 100.0}% parecida com a palavra: macaco.";
             await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
         }
 
