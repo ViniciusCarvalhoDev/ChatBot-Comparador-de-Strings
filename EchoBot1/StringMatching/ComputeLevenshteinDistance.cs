@@ -2,6 +2,9 @@
 
 namespace EchoBot1.StringMatching
 {
+    /// <summary>
+    /// http://www.let.rug.nl/~kleiweg/lev/levenshtein.html
+    /// </summary>
     public class ComputeLevenshteinDistance
     {
         /// <summary>
