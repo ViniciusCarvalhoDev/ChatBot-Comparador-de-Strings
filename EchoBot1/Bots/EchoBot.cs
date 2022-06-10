@@ -104,8 +104,9 @@ namespace EchoBot1.Bots
                            },
                            cancellationToken);
 
-                    await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
-                    await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+
+                    await _userState.ClearStateAsync(turnContext, cancellationToken);
+                    await _conversationState.ClearStateAsync(turnContext, cancellationToken);
                 }
                 
             }
