@@ -7,9 +7,9 @@
     <!-- Boostrap 4 CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Boostrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <title>Bot</title>
     <style>
@@ -128,7 +128,7 @@
         <div class="row rounded-lg overflow-hidden shadow">
             <!-- Chat Box-->
             <div class="col-12 px-0">
-                <div class="px-4 py-5 chat-box bg-white">
+                <div class="px-4 py-5 chat-box bg-white" id="chat-principal">
                     <!-- Sender Message-->
                     <div class="media w-50 mb-3">
                         <img src="https://bootstrapious.com/i/snippets/sn-chat/avatar.svg" alt="user" width="50" class="rounded-circle">
@@ -197,7 +197,7 @@
                 <!-- Typing area -->
                 <form action="#" class="bg-light">
                     <div class="input-group">
-                        <input type="text" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                        <input type="text" id="texto-usuario" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
                         <div class="input-group-append">
                             <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
                         </div>
@@ -208,5 +208,101 @@
         </div>
     </div>
 </body>
-
 </html>
+<script>
+    /*var xhr = new XMLHttpRequest();
+    xhr.open('GET', "http://localhost:3978/api/messages", true);
+    xhr.setRequestHeader('Authorization', 'BotConnector ' + 'YOUR SECRET HERE');
+    xhr.send();
+    xhr.onreadystatechange = processRequest;
+
+    function processRequest(e) {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
+        }
+    }*/
+
+    //var socket = new WebSocket('http://localhost:3978/api/messages');
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        $("#button-addon2").click(function () {
+
+            var conteudoUsuario = $("#texto-usuario").val();
+            var conteudoBot = $("#texto-usuario").val();
+
+            
+            var divMensagemBot = `<div class="media w-50 mb-3"> 
+                                    <img src = "https://cdn-icons.flaticon.com/png/512/2814/premium/2814666.png?token=exp=1654872955~hmac=aa98d3d4f0273e6e16486d52d31729cd"
+                                        alt = "user" width = "50" class= "rounded-circle" >
+                                            <div class="media-body ml-3">
+                                                <div class="bg-light rounded py-2 px-3 mb-2">
+                                                    <p class="text-small mb-0 text-muted">${conteudoBot}</p>
+                                                </div> <p class="small text-muted">12:00 PM | Aug 13</p>
+                                            </div>
+                                    </div >`;
+
+            var divMensagemUser = `<div class="media w-50 ml-auto mb-3">
+                                    <div class="media-body">
+                                        <div class="bg-primary rounded py-2 px-3 mb-2">
+                                            <p class="text-small mb-0 text-white">${conteudoUsuario}</p>
+                                        </div>
+                                        <p class="small text-muted">12:00 PM | Aug 13</p>
+                                    </div>
+                                </div>`;
+
+            //$.ajax({
+            //    url: "http://localhost:57799/api/messages",
+            //    type: 'GET',
+            //    dataType: 'json', // added data type
+            //    success: function (res) {
+            //        console.log(res);
+            //        alert(res);
+            //    }
+            //});
+
+            //$.ajax({
+            //    url: "directline/conversations/",
+            //    type: 'POST',
+            //    dataType: 'json', // added data type
+            //    success: function (res) {
+            //        console.log(res);
+            //        alert(res);
+            //    }
+            //});
+
+            $.ajax({
+                type: "POST",
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", '');
+                },
+                url: 'http://localhost:3978/api/messages',
+                data: JSON.stringify(conteudoUsuario),
+                success: function (msg) {
+                    var resposta = msg;
+                    console.log(resposta);
+
+                    //$.ajax({
+                    //    type: "POST",
+                    //    beforeSend: function (request) {
+                    //        request.setRequestHeader("Authorization", '');
+                    //    },
+                    //    url: 'http://localhost:3978/v3/directline/conversations/',
+                    //    data: '',
+                    //    success: function (msg) {
+                    //        var resposta = msg;
+                    //        console.log(resposta);
+                    //    }
+                    //});
+
+                }
+            });
+
+            
+
+            $("#chat-principal").append(divMensagemUser);
+        });
+    });
+    
+</script>

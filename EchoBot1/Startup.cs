@@ -26,6 +26,29 @@ namespace EchoBot1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+            //permitir requisicoes externas
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3978", "http://localhost:57799")
+                                            .AllowAnyOrigin()
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
+
+                //Access-Control-Allow-Origin
+
+                options.AddPolicy(name: "Access-Control-Allow-Origin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3978", "http://localhost:57799")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
+            });
             // Create the storage we'll be using for User and Conversation state.
             // (Memory is great for testing purposes - examples of implementing storage with
             // Azure Blob Storage or Cosmos DB are below).
